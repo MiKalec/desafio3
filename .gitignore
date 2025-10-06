@@ -1,0 +1,44 @@
+# Binários de Go
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.test
+*.prof
+
+# Diretório de build
+/bin/
+/pkg/
+
+# Módulos Go
+go.sum
+go.mod
+
+# Dependências de módulos Go
+/vendor/
+
+# Arquivos de IDE (GoLand)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Dados de teste e logs
+test_output/
+*.log
+*.sqlite
+*.db
+
+# Variáveis de ambiente e arquivos de configuração sensíveis (se você os tiver)
+.env
+config.json.local
+secrets.yaml
+
+# Arquivos temporários e de cache
+*~
+*.bak
+*.tmp
+.DS_Store # macOS
+Thumbs.db # Windows
+cotacao.txt
