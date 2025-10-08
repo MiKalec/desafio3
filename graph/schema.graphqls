@@ -1,0 +1,20 @@
+type Order {
+    id: ID!
+    name: String!
+    orderType: String!
+    description: String
+}
+
+input NewOrder {
+    name: String!
+    orderType: String!
+    description: String
+}
+
+type Query {
+    orders: [Order!]!
+}
+
+type Mutation {
+    createOrder(input: NewOrder!): Order!
+}
