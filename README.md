@@ -23,7 +23,7 @@ Inclua um README.md com os passos a serem executados no desafio e a porta em que
 
 1. Clone o repositório:
 ```bash
-git clone <repository-url>
+git clone git@github.com:MiKalec/desafio3.git
 cd desafio3
 ```
 
