@@ -1,0 +1,25 @@
+### Criar uma Order
+POST http://localhost:8000/order
+Content-Type: application/json
+
+{
+  "id": "1",
+  "price": 10.0,
+  "tax": 2.0
+}
+
+### Listar todas as Orders
+GET http://localhost:8000/order
+
+### Criar outra Order
+POST http://localhost:8000/order
+Content-Type: application/json
+
+{
+  "id": "456",
+  "price": 20.0,
+  "tax": 3.0
+}
+
+### Listar todas as Orders novamente
+GET http://localhost:8000/order

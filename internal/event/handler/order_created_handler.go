@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/devfullcycle/20-CleanArch/pkg/events"
+	"github.com/MiKalec/desafio3/pkg/events"
 	"github.com/streadway/amqp"
 )
 
@@ -22,13 +22,14 @@ func NewOrderCreatedHandler(rabbitMQChannel *amqp.Channel) *OrderCreatedHandler 
 func (h *OrderCreatedHandler) Handle(event events.EventInterface, wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Printf("Order created: %v", event.GetPayload())
+	if h.RabbitMQChannel == nil {
+		return
+	}
 	jsonOutput, _ := json.Marshal(event.GetPayload())
-
 	msgRabbitmq := amqp.Publishing{
 		ContentType: "application/json",
 		Body:        jsonOutput,
 	}
-
 	h.RabbitMQChannel.Publish(
 		"amq.direct", // exchange
 		"",           // key name

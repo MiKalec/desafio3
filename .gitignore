@@ -41,3 +41,6 @@ secrets.yaml
 .DS_Store # macOS
 Thumbs.db # Windows
 cotacao.txt
+
+#Arquivos docker
+.docker
