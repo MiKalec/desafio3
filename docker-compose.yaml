@@ -23,6 +23,3 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
-
-## docker-compose exec mysql bash
-## mysql -uroot -p orders_db
