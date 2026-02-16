@@ -1,6 +1,6 @@
 CREATE TABLE orders (
     id VARCHAR(255) PRIMARY KEY,
-    name VARCHAR(255),
-    orderType VARCHAR(50),
-    description VARCHAR(255)
+    price FLOAT NOT NULL,
+    tax FLOAT NOT NULL,
+    final_price FLOAT NOT NULL
 );

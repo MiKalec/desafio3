@@ -9,7 +9,6 @@
 
 # Diretório de build
 /bin/
-/pkg/
 
 # Módulos Go
 go.sum
