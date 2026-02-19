@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-type conf struct {
+type Conf struct {
 	DBDriver          string `mapstructure:"DB_DRIVER"`
 	DBHost            string `mapstructure:"DB_HOST"`
 	DBPort            string `mapstructure:"DB_PORT"`
@@ -18,28 +18,26 @@ type conf struct {
 	WebServerPort     string `mapstructure:"WEB_SERVER_PORT"`
 	GRPCServerPort    string `mapstructure:"GRPC_SERVER_PORT"`
 	GraphQLServerPort string `mapstructure:"GRAPHQL_SERVER_PORT"`
+	RabbitMQURL       string `mapstructure:"RABBITMQ_URL"`
 }
 
-func LoadConfig(path string) (*conf, error) {
-	var cfg *conf
+func LoadConfig(path string) (*Conf, error) {
 	viper.SetConfigName(".env")
 	viper.SetConfigType("env")
 	viper.AutomaticEnv()
 	viper.AddConfigPath(path)
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("cmd/ordersystem")
-	err := viper.ReadInConfig()
+	_ = viper.ReadInConfig() // ignora erro; env vars servem como fallback
+	var cfg Conf
+	err := viper.Unmarshal(&cfg)
 	if err != nil {
 		panic(err)
 	}
-	err = viper.Unmarshal(&cfg)
-	if err != nil {
-		panic(err)
-	}
-	return cfg, err
+	return &cfg, err
 }
 
-func EnsureDatabaseAndTable(cfg *conf) error {
+func EnsureDatabaseAndTable(cfg *Conf) error {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/", cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort)
 	db, err := sql.Open(cfg.DBDriver, dsn)
 	if err != nil {

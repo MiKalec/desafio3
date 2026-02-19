@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 
 	graphql_handler "github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -42,7 +43,7 @@ func main() {
 	}
 	defer db.Close()
 
-	rabbitMQChannel := getRabbitMQChannel()
+	rabbitMQChannel := getRabbitMQChannel(cfg)
 	if rabbitMQChannel == nil {
 		log.Println("RabbitMQ indisponível: eventos OrderCreated não serão publicados. Suba com docker compose up para habilitar.")
 	}
@@ -94,8 +95,15 @@ func main() {
 	http.ListenAndServe(":"+cfg.GraphQLServerPort, nil)
 }
 
-func getRabbitMQChannel() *amqp.Channel {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+func getRabbitMQChannel(cfg *configs.Conf) *amqp.Channel {
+	url := cfg.RabbitMQURL
+	if url == "" {
+		url = os.Getenv("RABBITMQ_URL")
+	}
+	if url == "" {
+		url = "amqp://guest:guest@localhost:5672/"
+	}
+	conn, err := amqp.Dial(url)
 	if err != nil {
 		log.Printf("RabbitMQ: conexão falhou (%v)", err)
 		return nil

@@ -19,44 +19,31 @@ Inclua um README.md com os passos a serem executados no desafio e a porta em que
 
 ## Como executar
 
-### Subindo dependências com Docker Compose
-
 1. Clone o repositório:
 ```bash
 git clone git@github.com:MiKalec/desafio3.git
 cd desafio3
 ```
 
-2. Execute o docker compose para subir as dependências (MySQL e RabbitMQ):
+2. Execute o docker compose para subir toda a aplicação (banco de dados, RabbitMQ e servidor da aplicação):
 ```bash
 docker compose up
 ```
 
-Isso irá iniciar:
-- **MySQL** na porta `3306`
+Isso irá iniciar automaticamente:
+- **MySQL** na porta `3306` (banco de dados preparado com a tabela `orders`)
 - **RabbitMQ** nas portas `5672` (AMQP) e `15672` (Management UI)
+- **Aplicação** nas portas `8000` (REST), `50051` (gRPC) e `8080` (GraphQL)
 
-### Executando a aplicação (go run)
+Após o build e a inicialização dos containers, a aplicação estará disponível sem configurações manuais ou comandos adicionais.
 
-1. Certifique-se de que o MySQL e RabbitMQ estão rodando (via `docker compose up` ou localmente).
+### Executando localmente (opcional)
 
-2. Configure as variáveis de ambiente no arquivo `cmd/ordersystem/.env`:
-```env
-DB_DRIVER=mysql
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=root
-DB_NAME=orders
-WEB_SERVER_PORT=:8000
-GRPC_SERVER_PORT=50051
-GRAPHQL_SERVER_PORT=8080
-```
+Se desejar rodar a aplicação fora do Docker:
 
-3. Em outro terminal (na pasta do projeto), execute a aplicação:
-```bash
-go run cmd/ordersystem/main.go cmd/ordersystem/wire_gen.go
-```
+1. Suba apenas as dependências: `docker compose up mysql rabbitmq -d`
+2. Configure `cmd/ordersystem/.env` com `DB_HOST=localhost` e, se necessário, `RABBITMQ_URL=amqp://guest:guest@localhost:5672/`
+3. Execute: `go run cmd/ordersystem/main.go cmd/ordersystem/wire_gen.go`
 
 ## Portas dos Serviços
 
@@ -272,8 +259,8 @@ desafio3/
 ├── pkg/events/               # Dispatcher de eventos
 ├── configs/                  # Configurações
 ├── sql-scripts/              # Scripts SQL de inicialização
-├── Dockerfile                # Dockerfile da aplicação
-├── docker-compose.yaml       # Configuração Docker Compose
+├── Dockerfile                # Build da aplicação para container
+├── docker-compose.yaml       # MySQL, RabbitMQ e aplicação
 └── api.http                  # Exemplos de requisições REST
 ```
 

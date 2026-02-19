@@ -1,0 +1,46 @@
+# Docker volumes e dados persistentes
+.docker/
+
+# Git
+.git/
+.gitignore
+
+# Dependências e builds locais
+vendor/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+ordersystem
+
+# Testes e cobertura
+*.test
+*.out
+coverage.txt
+
+# IDEs e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Arquivos temporários
+tmp/
+temp/
+*.tmp
+
+# Documentação (opcional, mas reduz tamanho)
+*.md
+!README.md
+
+# Scripts SQL (não precisam no build)
+sql-scripts/
+
+# Docker compose (não precisa no build)
+docker-compose.yaml
+docker-compose.yml
